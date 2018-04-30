@@ -1,0 +1,10 @@
+.mailbox {
+  display: grid;
+  grid-template-columns: 160px auto;
+  padding: 10px; }
+
+.mailbox-border {
+  width: 100%;
+  border: 0 solid black;
+  border-bottom-width: 1px;
+  grid-column: 1/3; }

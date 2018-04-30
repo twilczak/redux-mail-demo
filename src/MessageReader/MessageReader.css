@@ -1,0 +1,5 @@
+:host {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: inherit;
+}

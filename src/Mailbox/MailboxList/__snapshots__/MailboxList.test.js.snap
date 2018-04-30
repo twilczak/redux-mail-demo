@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`class MailboxList extends _react.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.renderMessage = this.renderMessage.bind(this);
+    }
+
+    componentDidUpdate() {
+        const url = this.props.location.pathname.split('/');
+        if (url.length > 2) {
+            this.scrollMessageIntoView(url[3]);
+        }
+    }
+
+    scrollMessageIntoView(messageId) {
+        const element = document.getElementById(messageId);
+        if (element) {
+            element.scrollIntoView();
+        }
+    }
+
+    renderHeader() {
+        const recipientOrSender = this.props.match.path === '/inbox' ?
+        _react2.default.createElement('span', { className: 'sender', __source: { fileName: _jsxFileName, lineNumber: 30 }, __self: this }, 'Sender') :
+        _react2.default.createElement('span', { className: 'recipient', __source: { fileName: _jsxFileName, lineNumber: 31 }, __self: this }, 'To');
+
+        return (
+            _react2.default.createElement('li', { className: 'mailbox-list-header', __source: { fileName: _jsxFileName, lineNumber: 34 }, __self: this },
+                recipientOrSender,
+                _react2.default.createElement('span', { className: 'subject', __source: { fileName: _jsxFileName, lineNumber: 36 }, __self: this }, 'Subject'),
+                _react2.default.createElement('span', { className: 'date-sent', __source: { fileName: _jsxFileName, lineNumber: 37 }, __self: this }, 'Date')));
+
+
+    }
+
+    renderMessages() {
+        return this.props.messages.map(this.renderMessage);
+    }
+
+    renderMessage(message) {
+        const recipientOrSender = this.props.match.path === '/inbox' ?
+        _react2.default.createElement('span', { className: 'sender', __source: { fileName: _jsxFileName, lineNumber: 48 }, __self: this }, message.sender) :
+        _react2.default.createElement('span', { className: 'recipient', __source: { fileName: _jsxFileName, lineNumber: 49 }, __self: this }, message.recipient);
+
+        return (
+            _react2.default.createElement('li', { className: 'mailbox-list-item', key: message.id, id: message.id, __source: { fileName: _jsxFileName, lineNumber: 52 }, __self: this },
+                _react2.default.createElement(_reactRouterDom.NavLink, { to: this.props.match.path + "/view/" + message.id,
+                        className: 'mailbox-item-link',
+                        activeClassName: 'is-active', __source: { fileName: _jsxFileName, lineNumber: 53 }, __self: this },
+                    recipientOrSender,
+                    _react2.default.createElement('span', { className: 'subject', __source: { fileName: _jsxFileName, lineNumber: 57 }, __self: this }, message.subject),
+                    _react2.default.createElement('span', { className: 'date-sent', __source: { fileName: _jsxFileName, lineNumber: 58 }, __self: this }, message.dateSent))));
+
+
+
+    }
+
+    render() {
+        return (
+            _react2.default.createElement('ol', { className: 'mailbox-list', __source: { fileName: _jsxFileName, lineNumber: 66 }, __self: this },
+                this.renderHeader(),
+                this.renderMessages()));
+
+
+    }} renders and matches the snapshot 1`] = `
+<ol
+  className="mailbox-list"
+>
+  <li
+    className="mailbox-list-header"
+  >
+    <span
+      className="sender"
+    >
+      Sender
+    </span>
+    <span
+      className="subject"
+    >
+      Subject
+    </span>
+    <span
+      className="date-sent"
+    >
+      Date
+    </span>
+  </li>
+  <li
+    className="mailbox-list-item"
+    id="123"
+  >
+    <a
+      aria-current={false}
+      className="mailbox-item-link"
+      href="/inbox/view/123"
+      onClick={[Function]}
+      style={undefined}
+    >
+      <span
+        className="sender"
+      >
+        testSender
+      </span>
+      <span
+        className="subject"
+      >
+        testing
+      </span>
+      <span
+        className="date-sent"
+      >
+        2017.11.06
+      </span>
+    </a>
+  </li>
+</ol>
+`;

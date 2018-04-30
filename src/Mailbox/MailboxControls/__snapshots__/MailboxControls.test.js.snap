@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`class MailboxControls extends _react.Component {
+    render() {
+        return (
+            _react2.default.createElement('div', { __source: { fileName: _jsxFileName, lineNumber: 9 }, __self: this },
+                _react2.default.createElement(_reactRouterDom.NavLink, { to: '/inbox', className: 'mailbox-button', activeClassName: 'is-active', __source: { fileName: _jsxFileName, lineNumber: 10 }, __self: this }, 'Inbox'),
+                _react2.default.createElement(_reactRouterDom.NavLink, { to: '/outbox', className: 'mailbox-button', activeClassName: 'is-active', __source: { fileName: _jsxFileName, lineNumber: 11 }, __self: this }, 'Outbox'),
+                _react2.default.createElement(_reactRouterDom.Link, { to: this.props.match.path + "/compose", className: 'mailbox-button', __source: { fileName: _jsxFileName, lineNumber: 12 }, __self: this }, 'Compose')));
+
+
+    }} renders and matches the snapshot 1`] = `
+<div>
+  <a
+    aria-current={false}
+    className="mailbox-button"
+    href="/inbox"
+    onClick={[Function]}
+    style={undefined}
+  >
+    Inbox
+  </a>
+  <a
+    aria-current={false}
+    className="mailbox-button"
+    href="/outbox"
+    onClick={[Function]}
+    style={undefined}
+  >
+    Outbox
+  </a>
+  <a
+    className="mailbox-button"
+    href="/inbox/compose"
+    onClick={[Function]}
+  >
+    Compose
+  </a>
+</div>
+`;

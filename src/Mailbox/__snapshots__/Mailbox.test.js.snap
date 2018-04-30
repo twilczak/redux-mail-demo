@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`class Mailbox extends _react.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            messages: [] };
+
+    }
+
+    componentDidMount() {
+        this.loadMessages(this.props.match.path);
+    }
+
+    componentWillReceiveProps({ match }) {
+        this.loadMessages(match.path);
+    }
+
+    loadMessages(path) {
+        this.setState({ messages: [] });
+        _MailService.MailService.
+        getMessages(path).
+        then(messages => this.setState({ messages: messages })).
+        catch(_errorHandler.errorHandler);
+    }
+
+    render() {
+        return (
+            _react2.default.createElement('section', { className: 'mailbox', __source: { fileName: _jsxFileName, lineNumber: 42 }, __self: this },
+
+                _react2.default.createElement(_MailboxControls.MailboxControls, { match: this.props.match, __source: { fileName: _jsxFileName, lineNumber: 44 }, __self: this }),
+                _react2.default.createElement(_MailboxList.MailboxList, { match: this.props.match, location: this.props.location, messages: this.state.messages, __source: { fileName: _jsxFileName, lineNumber: 45 }, __self: this }),
+
+                _react2.default.createElement('hr', { className: 'mailbox-border', __source: { fileName: _jsxFileName, lineNumber: 47 }, __self: this }),
+
+                _react2.default.createElement(_reactRouterDom.Switch, { __source: { fileName: _jsxFileName, lineNumber: 49 }, __self: this },
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/inbox/view/:messageId', component: _MessageReader.MessageReader, __source: { fileName: _jsxFileName, lineNumber: 50 }, __self: this }),
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/outbox/view/:messageId', component: _MessageReader.MessageReader, __source: { fileName: _jsxFileName, lineNumber: 51 }, __self: this }),
+
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/inbox/compose', component: _MessageComposer.MessageComposer, __source: { fileName: _jsxFileName, lineNumber: 53 }, __self: this }),
+                    _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/outbox/compose', component: _MessageComposer.MessageComposer, __source: { fileName: _jsxFileName, lineNumber: 54 }, __self: this }))));
+
+
+
+
+    }} renders and matches the snapshot 1`] = `
+<section
+  className="mailbox"
+>
+  <div>
+    <a
+      aria-current="true"
+      className="mailbox-button is-active"
+      href="/inbox"
+      onClick={[Function]}
+      style={Object {}}
+    >
+      Inbox
+    </a>
+    <a
+      aria-current={false}
+      className="mailbox-button"
+      href="/outbox"
+      onClick={[Function]}
+      style={undefined}
+    >
+      Outbox
+    </a>
+    <a
+      className="mailbox-button"
+      href="/inbox/compose"
+      onClick={[Function]}
+    >
+      Compose
+    </a>
+  </div>
+  <ol
+    className="mailbox-list"
+  >
+    <li
+      className="mailbox-list-header"
+    >
+      <span
+        className="sender"
+      >
+        Sender
+      </span>
+      <span
+        className="subject"
+      >
+        Subject
+      </span>
+      <span
+        className="date-sent"
+      >
+        Date
+      </span>
+    </li>
+  </ol>
+  <hr
+    className="mailbox-border"
+  />
+</section>
+`;
