@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-
-import './Mailbox.css';
-
-import { MailService } from "../MailService";
-import { errorHandler } from "../errorHandler";
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { MailboxControls } from "./MailboxControls/MailboxControls";
 import { MailboxList } from "./MailboxList/MailboxList";
 import { MessageReader } from "../MessageReader/MessageReader";
 import { MessageComposer } from "../MessageComposer/MessageComposer";
 
-export class Mailbox extends Component {
+import { fetchMessages } from './MailboxActions';
 
-    constructor(props) {
-        super(props);
+import './Mailbox.css';
 
-        this.state = {
-            messages: []
-        };
-    }
+class MailboxComponent extends Component {
 
     componentDidMount() {
-        this.loadMessages(this.props.match.path);
+        this.props.fetchMessages(this.props.match.path);
     }
 
-    componentWillReceiveProps({match}) {
-        this.loadMessages(match.path);
-    }
-
-    loadMessages(path) {
-        this.setState({messages: []});
-        MailService
-            .getMessages(path)
-            .then((messages) => this.setState({messages: messages}))
-            .catch(errorHandler);
+    componentWillReceiveProps({match}) {    
+        this.props.fetchMessages(match.path);
     }
 
     render() {
@@ -42,7 +27,7 @@ export class Mailbox extends Component {
             <section className="mailbox">
 
                 <MailboxControls match={this.props.match}/>
-                <MailboxList match={this.props.match} location={this.props.location} messages={this.state.messages}/>
+                <MailboxList match={this.props.match} location={this.props.location} messages={this.props.messages}/>
 
                 <hr className="mailbox-border"/>
 
@@ -58,3 +43,16 @@ export class Mailbox extends Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    const mailbox = ownProps.match.path.split('/').join('');
+    return {
+        messages: state.mailbox[mailbox]
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    fetchMessages: bindActionCreators(fetchMessages, dispatch)
+});
+
+export const Mailbox = connect(mapStateToProps, mapDispatchToProps)(MailboxComponent);
