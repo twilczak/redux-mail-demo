@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -15,15 +15,6 @@ import './Mailbox.css';
 class MailboxComponent extends Component {
 
     componentDidMount() {
-        this.props.fetchMessages(this.props.match.path);
-    }
-
-    shouldComponentUpdate(nextProps) {
-        const reduceMessages = (accumulator, message) => accumulator + message.id;
-        return this.props.messages.reduce(reduceMessages, '') !== nextProps.messages.reduce(reduceMessages, '');
-    }
-
-    componentDidUpdate() {
         this.props.fetchMessages(this.props.match.path);
     }
 
@@ -49,15 +40,19 @@ class MailboxComponent extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
-    const mailbox = ownProps.match.path.split('/').join('');
-    return {
-        messages: state.mailbox[mailbox]
-    };
-};
+const mapInboxToProps = (state, ownProps) => ({
+    messages: state.mailbox.inbox,
+    isLoading: state.mailbox.isLoading,
+});
+
+const mapOutboxToProps = (state, ownProps) => ({
+    messages: state.mailbox.outbox,
+    isLoading: state.mailbox.isLoading,
+});
 
 const mapDispatchToProps = dispatch => ({
     fetchMessages: bindActionCreators(fetchMessages, dispatch)
 });
 
-export const Mailbox = connect(mapStateToProps, mapDispatchToProps)(MailboxComponent);
+export const Inbox = connect(mapInboxToProps, mapDispatchToProps)(MailboxComponent);
+export const Outbox = connect(mapOutboxToProps, mapDispatchToProps)(MailboxComponent);
