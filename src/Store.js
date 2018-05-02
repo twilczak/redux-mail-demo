@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import { mailbox } from './Mailbox/MailboxReducers';
+import { mailbox } from './Mailbox/MailboxReducer';
 
 const reducers = combineReducers({mailbox});
 const initialState = {};
