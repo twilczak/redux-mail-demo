@@ -1,46 +1,47 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { MailService } from '../MailService';
+import { MessageDetail } from './MessageDetail/MessageDetail';
+import { errorHandler } from '../errorHandler';
+
+import { fetchMessage } from './MessageReaderActions';
 
 import './MessageReader.css'
 
-import { MailService } from "../MailService";
-import { MessageDetail } from "./MessageDetail/MessageDetail";
-import { errorHandler } from "../errorHandler";
-
-export class MessageReader extends Component {
+export class MessageReaderComponent extends Component {
 
     constructor(props) {
         super(props);
 
-        this.state = {
-            loading: false,
-            message: {}
-        };
-
         this.onDelete = this.onDelete.bind(this);
     }
 
-    componentWillReceiveProps({match}) {
-        const mailboxAndId = this.getMailboxAndId(match.url);
-        this.getMessage(mailboxAndId);
+    componentDidMount() {
+        this.getMessage();
+    }
+
+    shouldComponentUpdate(nextProps) {
+        const {messageId} = this.getMailboxAndId(nextProps.match.url);
+        return this.props.message.id !== messageId;
+    }
+
+    componentDidUpdate() {
+        this.getMessage();
     }
 
     getMailboxAndId(url) {
         const splitUrl = url.split('/');
-        return {mailbox: splitUrl[1], messageId: splitUrl[3]}
+        return {mailbox: splitUrl[1], messageId: splitUrl[3]};
     }
 
-    getMessage({mailbox, messageId}) {
-        if( this.state.loading ) {
-            return;
-        }
-
-        this.setState({loading: true, message: {}});
-
-        MailService
-            .getMessage(mailbox, messageId)
-            .then(message => this.setState({message, loading: false}))
-            .catch(errorHandler);
+    getMessage() {
+        const {match: {url}}  = this.props;
+        const {mailbox, messageId} = this.getMailboxAndId(url);
+        this.props.fetchMessage(mailbox, messageId);
     }
+
 
     onDelete(message) {
         const mailbox = this.props.match.url.split('/')[1];
@@ -54,7 +55,18 @@ export class MessageReader extends Component {
 
     render() {
         return (
-            <MessageDetail message={this.state.message} onDelete={this.onDelete}/>
+            <MessageDetail message={this.props.message} onDelete={this.onDelete}/>
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+    message: state.messageReader.message,
+    isLoading: state.messageReader.isLoading,
+});
+
+const mapDispatchToProps = dispatch => ({
+    fetchMessage: bindActionCreators(fetchMessage, dispatch)
+});
+
+export const MessageReader = connect(mapStateToProps, mapDispatchToProps)(MessageReaderComponent);

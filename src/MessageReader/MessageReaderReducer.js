@@ -7,8 +7,6 @@ export const messageReader = (state = {isLoading: false, message: {}}, action) =
                 ...state,
                 isLoading: true,
                 error: null,
-                message: {},
-                messageId: null,
             };
         case messageReaderActions.FETCH_MESSAGE_SUCCESS:
             return {
