@@ -18,8 +18,13 @@ class MailboxComponent extends Component {
         this.props.fetchMessages(this.props.match.path);
     }
 
-    componentWillReceiveProps({match}) {    
-        this.props.fetchMessages(match.path);
+    shouldComponentUpdate(nextProps) {
+        const reduceMessages = (accumulator, message) => accumulator + message.id;
+        return this.props.messages.reduce(reduceMessages, '') !== nextProps.messages.reduce(reduceMessages, '');
+    }
+
+    componentDidUpdate() {
+        this.props.fetchMessages(this.props.match.path);
     }
 
     render() {
