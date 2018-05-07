@@ -22,13 +22,11 @@ export class MessageReaderComponent extends Component {
         this.getMessage();
     }
 
-    shouldComponentUpdate(nextProps) {
-        const {messageId} = this.getMailboxAndId(nextProps.match.url);
-        return this.props.message.id !== messageId;
-    }
-
-    componentDidUpdate() {
-        this.getMessage();
+    componentDidUpdate(prevProps) {
+        const {messageId} = this.getMailboxAndId(this.props.match.url);
+        if(!this.props.isLoading && this.props.message.id !== messageId) {
+            this.getMessage();
+        }
     }
 
     getMailboxAndId(url) {
@@ -62,6 +60,7 @@ export class MessageReaderComponent extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
     message: state.messageReader.message,
+    messageId: state.messageReader.messageId,
     isLoading: state.messageReader.isLoading,
 });
 

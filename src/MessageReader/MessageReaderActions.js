@@ -30,7 +30,7 @@ export const fetchMessage = (mailbox, messageId) => dispatch => {
             dispatch({type: FETCH_MESSAGE_SUCCESS, message: message});
         })
         .catch(error => {
-            dispatch({type: FETCH_MESSAGE_FAILED, error, messageId});
+            dispatch({type: FETCH_MESSAGE_FAILED, error});
         });
 };
 
