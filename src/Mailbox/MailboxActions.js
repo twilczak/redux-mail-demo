@@ -18,7 +18,13 @@ export const fetchMessages = (mailbox) => dispatch => {
     dispatch({type: FETCH_MESSAGES, mailbox: parsedMailbox});
 
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
         .then(jsonResponse => {
             dispatch({type: FETCH_MESSAGES_SUCCESS, mailbox: parsedMailbox, messages: jsonResponse});
         })

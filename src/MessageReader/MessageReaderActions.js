@@ -25,7 +25,13 @@ export const fetchMessage = (mailbox, messageId) => dispatch => {
     dispatch({type: FETCH_MESSAGE, mailbox: parsedMailbox});
 
     fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            if(response.ok) {
+                return response.json()
+            } else {
+                throw new Error(response.statusText);
+            }
+        })
         .then(jsonResponse => {
             const message = jsonResponse.find(message => message.id === messageId);
             dispatch({type: FETCH_MESSAGE_SUCCESS, message: message});
@@ -42,7 +48,11 @@ export const deleteMessage = (mailbox, messageId) => dispatch => {
 
     fetch(url, {method: 'DELETE'})
         .then(response => {
-            dispatch({type: DELETE_MESSAGE_SUCCESS, mailbox, messageId})
+            if(response.ok) {
+                dispatch({type: DELETE_MESSAGE_SUCCESS, mailbox, messageId})
+            } else {
+                throw new Error(response.statusText);
+            }
         })
         .catch(error => {
             dispatch({type: DELETE_MESSAGE_FAILED, mailbox, error, messageId});
