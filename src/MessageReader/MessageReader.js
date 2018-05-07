@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { MailService } from '../MailService';
 import { MessageDetail } from './MessageDetail/MessageDetail';
-import { errorHandler } from '../errorHandler';
-
-import { fetchMessage } from './MessageReaderActions';
-
+import { fetchMessage, deleteMessage } from './MessageReaderActions';
 import './MessageReader.css'
 
 export class MessageReaderComponent extends Component {
@@ -40,15 +36,10 @@ export class MessageReaderComponent extends Component {
         this.props.fetchMessage(mailbox, messageId);
     }
 
-
-    onDelete(message) {
-        const mailbox = this.props.match.url.split('/')[1];
-        const messageId = message.id;
-
-        MailService
-            .deleteMessage(mailbox, messageId)
-            .then(() => this.props.history.replace(`/${mailbox}`))
-            .catch(errorHandler);
+    onDelete() {
+        const {messageId, mailbox} = this.getMailboxAndId(this.props.match.url);
+        this.props.deleteMessage(mailbox, messageId);
+        this.props.history.replace(`/${mailbox}`);
     }
 
     render() {
@@ -65,7 +56,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchMessage: bindActionCreators(fetchMessage, dispatch)
+    fetchMessage: bindActionCreators(fetchMessage, dispatch),
+    deleteMessage: bindActionCreators(deleteMessage, dispatch),
 });
 
 export const MessageReader = connect(mapStateToProps, mapDispatchToProps)(MessageReaderComponent);
