@@ -18,6 +18,12 @@ class MailboxComponent extends Component {
         this.props.fetchMessages(this.props.match.path);
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.match.path !== this.props.match.path) {
+            this.props.fetchMessages(this.props.match.path);
+        }
+    }
+
     render() {
         return (
             <section className="mailbox">
@@ -40,19 +46,15 @@ class MailboxComponent extends Component {
     }
 }
 
-const mapInboxToProps = (state, ownProps) => ({
-    messages: state.mailbox.inbox,
-    isLoading: state.mailbox.isLoading,
-});
-
-const mapOutboxToProps = (state, ownProps) => ({
-    messages: state.mailbox.outbox,
-    isLoading: state.mailbox.isLoading,
-});
+const mapStateToProps = (state, ownProps) => {
+    const mailbox = ownProps.match.path.split('/').join('');
+    return {
+        messages: state.mailbox[mailbox]
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
     fetchMessages: bindActionCreators(fetchMessages, dispatch)
 });
 
-export const Inbox = connect(mapInboxToProps, mapDispatchToProps)(MailboxComponent);
-export const Outbox = connect(mapOutboxToProps, mapDispatchToProps)(MailboxComponent);
+export const Mailbox = connect(mapStateToProps, mapDispatchToProps)(MailboxComponent);

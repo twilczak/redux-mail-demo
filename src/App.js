@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 
 import { History } from './History';
-import { Inbox, Outbox } from './Mailbox/Mailbox';
+import { Mailbox } from './Mailbox/Mailbox';
 import { Store } from './Store';
 
 import './App.css';
@@ -18,8 +18,8 @@ const App = () => {
                         <Route exact path="/" render={() =>
                             <Redirect to="/inbox"/>
                         }/>
-                        <Route path="/inbox" component={Inbox}/>
-                        <Route path="/outbox" component={Outbox}/>
+                        <Route path="/inbox" component={Mailbox}/>
+                        <Route path="/outbox" component={Mailbox}/>
                     </Switch>
                 </div>
             </ConnectedRouter>
