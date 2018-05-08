@@ -1,5 +1,6 @@
 import { mailboxActions } from './MailboxActions';
 import { messageReaderActions } from '../MessageReader/MessageReaderActions';
+import { messageComposerActions } from '../MessageComposer/MessageComposerActions';
 
 export const mailbox = (state = {isLoading: false, inbox: [], outbox: []}, action) => {
     switch(action.type) {
@@ -24,7 +25,12 @@ export const mailbox = (state = {isLoading: false, inbox: [], outbox: []}, actio
         case messageReaderActions.DELETE_MESSAGE_SUCCESS:
             return {
                 ...state,
-                [action.mailbox] : state[action.mailbox].filter(message => message.id !== action.messageId)
+                [action.mailbox] : state[action.mailbox].filter(message => message.id !== action.messageId),
+            };
+        case messageComposerActions.SEND_MESSAGE_SUCCESS:
+            return {
+                ...state,
+                outbox: [...state.outbox, action.message],
             };
         default:
             return state;
