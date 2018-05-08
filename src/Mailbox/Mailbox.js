@@ -12,7 +12,7 @@ import { fetchMessages } from './MailboxActions';
 
 import './Mailbox.css';
 
-class MailboxComponent extends Component {
+export class MailboxComponent extends Component {
 
     componentDidMount() {
         this.props.fetchMessages(this.props.match.path);
