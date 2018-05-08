@@ -43,4 +43,9 @@ describe(MailboxComponent, () => {
         expect(mailboxListProps.match).toEqual({path: '/inbox'});
         expect(mailboxListProps.messages).toEqual(mockMessages);
     });
+
+    it('calls props.fetchMessages() when component updates', () => {
+        component.setProps({match:{path: '/outbox'}});
+        expect(fetchMessages.mock.calls[2][0]).toEqual('/outbox');
+    });
 });
