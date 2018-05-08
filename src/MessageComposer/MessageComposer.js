@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-
-import './MessageComposer.css';
-
-import { MailService } from '../MailService';
-import { errorHandler } from '../errorHandler';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 import { MessageForm } from './MessageForm/MessageForm';
+import { sendMessage } from './MessageComposerActions';
+import './MessageComposer.css';
 
-export class MessageComposer extends Component {
+export class MessageComposerComponent extends Component {
 
     constructor(props) {
         super(props);
@@ -15,15 +14,17 @@ export class MessageComposer extends Component {
         this.onSend = this.onSend.bind(this);
     }
 
+    componentDidUpdate() {
+        const {id} = this.props.message;
+        if(id) {
+            const mailbox = this.props.match.path.split('/')[1];
+            const destination = mailbox === 'inbox' ? '/inbox' : `/outbox/view/${id}`;
+            this.props.history.push(destination);
+        }
+    }
+
     onSend (message) {
-        MailService
-            .sendMessage(message)
-            .then((message) => {
-                const mailbox = this.props.match.path.split('/')[1];
-                const destination = mailbox === 'inbox' ? '/inbox' : `/outbox/view/${message.id}`;
-                this.props.history.push(destination);
-            })
-            .catch(errorHandler);
+        this.props.sendMessage(message);
     }
 
     render() {
@@ -32,3 +33,14 @@ export class MessageComposer extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => ({
+    isLoading: state.messageComposer.isLoading,
+    message: state.messageComposer.message,
+});
+
+const mapDispatchToProps = dispatch => ({
+    sendMessage: bindActionCreators(sendMessage, dispatch)
+});
+
+export const MessageComposer = connect(mapStateToProps, mapDispatchToProps)(MessageComposerComponent);

@@ -18,7 +18,7 @@ export class MessageReaderComponent extends Component {
         this.getMessage();
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate() {
         const {messageId} = this.getMailboxAndId(this.props.match.url);
         if(!this.props.isLoading && this.props.message.id !== messageId) {
             this.getMessage();

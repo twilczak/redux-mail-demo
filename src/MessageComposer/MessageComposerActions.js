@@ -42,8 +42,8 @@ function zeroPad(value) {
 }
 
 function getDateSent(date = new Date()) {
-    const day = this.zeroPad(date.getDate());
-    const month = this.zeroPad(date.getMonth() + 1);
+    const day = zeroPad(date.getDate());
+    const month = zeroPad(date.getMonth() + 1);
     const year = date.getFullYear();
 
     return `${year}.${month}.${day}`;
